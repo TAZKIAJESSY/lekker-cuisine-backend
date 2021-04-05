@@ -4,11 +4,11 @@ Lekker Cuisine is a cooking app characterized by distinctive ingredients, techni
 
 ### DATABASE MODEL
 
-[Model](https://dbdiagram.io/d/6069e9a9ecb54e10c33e9ff0)
+Go To [Model](https://dbdiagram.io/d/6069e9a9ecb54e10c33e9ff0)
 
 ### WIREFRAME MODEL
 
-[Model](https://wireframepro.mockflow.com/editor.jsp?editor=off&publicid=Mf8de6daaa49a02f7bcc5d8170ca9768f1617554078389&projectid=Ma1bc87249898ec6ac46574131270eeea1617480336067&perm=Owner#/page/5b1ab357c49e4ddea9a35aafe671a938)
+Go To [Model](https://wireframepro.mockflow.com/editor.jsp?editor=off&publicid=Mf8de6daaa49a02f7bcc5d8170ca9768f1617554078389&projectid=Ma1bc87249898ec6ac46574131270eeea1617480336067&perm=Owner#/page/5b1ab357c49e4ddea9a35aafe671a938)
 
 ---
 
