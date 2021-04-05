@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         through: "cuisineIngredients",
         foreignKey: "ingredientId",
       });
+
+      ingredient.hasMany(models.shoppingList);
     }
   }
   ingredients.init(

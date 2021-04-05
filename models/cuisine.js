@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
         through: "cuisineIngredients",
         foreignKey: "cuisineId",
       });
+
+      cuisine.hasMany(models.favourite);
     }
   }
   cuisines.init(
