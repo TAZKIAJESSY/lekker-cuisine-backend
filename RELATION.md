@@ -1,16 +1,14 @@
 =>user-cuisine[one to many relationship]
 =>cuisine-ingredient[many-many relationship]
-=>user-checklist[one to many]
+=>user-favourite[one to many]
+=>user-shoppingList[one to many]
 
 **user**
 user.hasMany(models.cuisine);
 
-user.hasMany(models.checkList, { as: "userLikes" });
+user.hasMany(models.favourite);
 
-user.belongsToMany(models.cuisine, {
-through: "checkLists",
-foreignKey: "userId",
-}
+user.hasMany(models.shoppingList);
 
 **cusine**
 cuisine.belongsTo(models.user);
@@ -18,8 +16,27 @@ cuisine.belongsTo(models.user);
 cuisine.belongsToMany(models.ingredient, {
 through: "cuisineIngredients",
 foreignKey: "cuisineId",
+});
+
+cuisine.hasMany(models.favourite);
+
+**cuisineIngredient**
+cuisineIngredient.belongsTo(models.cuisine);
+cuisineIngredient.belongsTo(models.ingredient);
+
+**ingredient**
+ingredient.belongsToMany(models.cuisine, {
+through: "cuisineIngredients",
+foreignKey: "ingredientId",
+});
+
+ingredient.hasMany(models.shoppingList);
 }
 
-**checkList**
-checkList.belongsTo(models.user);
-checkList.belongsTo(models.cuisine);
+**favourite**
+favourite.belongsTo(models.user);
+favourite.belongsTo(models.cuisine);
+
+**shoppingList**
+shoppingList.belongsTo(models.user);
+shoppingList.belongsTo(models.ingredient);
