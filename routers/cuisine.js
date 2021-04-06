@@ -6,7 +6,7 @@ const router = new Router();
 
 // get all cusines
 
-router.get("/cuisines", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const allCuisines = await Cuisine.findAll({ include: [Ingredient] });
     if (!allCuisines) {
