@@ -8,7 +8,9 @@ const router = new Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    const allCuisines = await Cuisine.findAll({ include: [Ingredient] });
+    const allCuisines = await Cuisine.findAll({
+      include: [Ingredient],
+    });
     if (!allCuisines) {
       res.status(404).send("Cuisines not found");
     } else {
