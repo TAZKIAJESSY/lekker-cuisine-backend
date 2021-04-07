@@ -33,7 +33,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       cookingTime: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       calories: {
         type: Sequelize.STRING,

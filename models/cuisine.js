@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       instructions: DataTypes.TEXT,
       cuisineType: DataTypes.STRING,
       servings: DataTypes.STRING,
-      cookingTime: DataTypes.STRING,
+      cookingTime: DataTypes.INTEGER,
       calories: DataTypes.STRING,
       likes: DataTypes.INTEGER,
     },
