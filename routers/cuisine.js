@@ -56,7 +56,7 @@ router.get("/", async (req, res, next) => {
       console.log("raw data", formatted_cuisines);
       const cuisineArray = formatted_cuisines.map((c) => {
         const obj = new Object();
-        obj.cuisineId = c.id;
+        obj.id = c.id;
         obj.userId = c.userId;
         obj.title = c.title;
         obj.instructions = c.instructions;
@@ -94,19 +94,24 @@ router.get("/", async (req, res, next) => {
 });
 
 //update a like button for cuisine
-router.patch("/:cuisineId", async (req, res) => {
-  const cuisine = await Cuisine.findByPk(req.params.cuisineId);
-  if (!cuisine.userId === req.user.id) {
-    return res
-      .status(403)
-      .send({ message: "You are not authorized to like cuisine" });
+router.patch("/:cuisineId", async (req, res, next) => {
+  // if (!cuisine.userId === req.user.id) {
+  //   return res
+  //     .status(403)
+  //     .send({ message: "You are not authorized to like cuisine" });
+  // }
+
+  try {
+    const cuisine = await Cuisine.findByPk(req.params.cuisineId);
+    const cuisineId = parseInt(req.params.cuisineId);
+
+    await cuisine.increment("likes", { by: 1, where: { id: cuisineId } });
+
+    return res.status(200).send({ cuisine });
+    console.log("response: ", cuisine);
+  } catch (e) {
+    next(e.message);
   }
-
-  const { likes } = req.body;
-
-  await cuisine.update({ likes });
-
-  return res.status(200).send({ cuisine });
 });
 
 module.exports = router;
