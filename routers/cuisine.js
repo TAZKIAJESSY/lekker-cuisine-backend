@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Cuisine = require("../models").cuisine;
 const Ingredient = require("../models").ingredient;
+const CuisineIngredient = require("../models").cuisineingredient;
 
 const router = new Router();
 
@@ -9,7 +10,12 @@ const router = new Router();
 router.get("/", async (req, res, next) => {
   try {
     const allCuisines = await Cuisine.findAll({
-      include: [Ingredient],
+      include: [
+        {
+          model: Ingredient,
+          through: { model: CuisineIngredient, attributes: ["amount"] },
+        },
+      ],
     });
     if (!allCuisines) {
       res.status(404).send("Cuisines not found");
