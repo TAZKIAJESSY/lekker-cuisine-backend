@@ -30,6 +30,7 @@ const router = new Router();
 //   }
 // });
 
+// // get all cusines
 router.get("/", async (req, res, next) => {
   try {
     const allCuisines = await Cuisine.findAll({
@@ -90,6 +91,22 @@ router.get("/", async (req, res, next) => {
   } catch (e) {
     next(e.message);
   }
+});
+
+//update a like button for cuisine
+router.patch("/:cuisineId", async (req, res) => {
+  const cuisine = await Cuisine.findByPk(req.params.cuisineId);
+  if (!cuisine.userId === req.user.id) {
+    return res
+      .status(403)
+      .send({ message: "You are not authorized to like cuisine" });
+  }
+
+  const { likes } = req.body;
+
+  await cuisine.update({ likes });
+
+  return res.status(200).send({ cuisine });
 });
 
 module.exports = router;
