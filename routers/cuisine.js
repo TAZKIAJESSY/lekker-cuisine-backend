@@ -5,11 +5,20 @@ const CuisineIngredient = require("../models").cuisineingredient;
 
 const router = new Router();
 
-// // get all cusines
+// get all cusines
 // router.get("/", async (req, res, next) => {
 //   try {
 //     const allCuisines = await Cuisine.findAll({
-//       include: [{ model: Ingredient }],
+//       include: [
+//         {
+//           model: Ingredient,
+//           through: {
+//             model: CuisineIngredient,
+//             as: "cuisineingredients",
+//             attributes: ["amount"],
+//           },
+//         },
+//       ],
 //     });
 //     if (!allCuisines) {
 //       res.status(404).send("Cuisines not found");
@@ -21,14 +30,12 @@ const router = new Router();
 //   }
 // });
 
-//details page
 router.get("/", async (req, res, next) => {
   try {
     const allCuisines = await Cuisine.findAll({
       include: [
         {
           model: Ingredient,
-          // required: true,
 
           through: {
             model: CuisineIngredient,
@@ -47,24 +54,33 @@ router.get("/", async (req, res, next) => {
       let finalData = [];
       console.log("raw data", formatted_cuisines);
       const cuisineArray = formatted_cuisines.map((c) => {
-        c.ingredients.map((i) => {
-          const obj = new Object();
-          obj.cuisineId = c.id;
-          obj.userId = c.userId;
-          obj.title = c.title;
-          obj.instructions = c.instructions;
-          obj.imageUrl = c.imageUrl;
-          obj.cuisineType = c.cuisineType;
-          obj.servings = c.servings;
-          obj.cookingTime = c.cookingTime;
-          obj.calories = c.calories;
-          obj.likes = c.likes;
-          obj.name = i.name;
-          obj.amount = i.cuisineingredients.amount;
+        const obj = new Object();
+        obj.cuisineId = c.id;
+        obj.userId = c.userId;
+        obj.title = c.title;
+        obj.instructions = c.instructions;
+        obj.imageUrl = c.imageUrl;
+        obj.cuisineType = c.cuisineType;
+        obj.servings = c.servings;
+        obj.cookingTime = c.cookingTime;
+        obj.calories = c.calories;
+        obj.likes = c.likes;
 
-          finalData.push(obj);
+        //custom made array for number of ingredient object
+        obj.ingredients = [];
+
+        c.ingredients.map((i) => {
+          const ingredientObj = new Object();
+
+          ingredientObj.name = i.name;
+
+          ingredientObj.amount = i.cuisineingredients.amount;
+
+          obj.ingredients.push(ingredientObj);
           return;
         });
+        finalData.push(obj);
+
         return;
       });
 

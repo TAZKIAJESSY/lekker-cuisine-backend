@@ -54,6 +54,13 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          amount: "100g",
+          cuisineId: 1,
+          ingredientId: 9,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
