@@ -8,7 +8,7 @@ module.exports = {
         {
           title: "Pizza Margherita",
           imageUrl:
-            "https://www.kimscravings.com/wp-content/uploads/2020/01/Margherita-Pizza-5.jpg",
+            "https://res.cloudinary.com/jessy/image/upload/v1617622204/margherita-pizza_pz454f.jpg",
           instructions:
             "Whether you are using homemade or store-bought pizza dough, allow the dough to rest on your kitchen counter for a minimum of 1 hour so it comes up to room temperature.First, preheat your oven to the highest temperature it will go. For me that is 525°F.Place the dough on a clean and floured surface.Press with your fingers to flatten and lightly stretch and rotate until it is your desired shape.Use the biggest baking sheet you own and sprinkle with coarse ground cornmeal.add the canned or carton tomatoes to a food processor or blender along with the garlic cloves and basil leaves. You can also add a bit of sea salt and black pepper, if desired. Blend for about 1 minute.Add about 1/2 cup of pizza sauce to the dough. Next, add the mozzarella cheese.Bake the pizza in your preheated 525°F (or higher) oven on the bottom rack for 5 minutes then move it to the middle rack for 8-10 minutes.",
           cuisineType: "Italian",
