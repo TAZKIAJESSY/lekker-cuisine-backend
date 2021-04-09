@@ -15,7 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "cuisineId",
       });
 
-      cuisine.hasMany(models.favourite);
+      cuisine.belongsToMany(models.user, {
+        through: "favourites",
+        foreignKey: "cuisineId",
+        as: "fav",
+      });
     }
   }
   cuisine.init(
