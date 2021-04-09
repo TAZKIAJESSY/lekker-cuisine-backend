@@ -93,6 +93,8 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+//http GET :4000/cusines
+
 //update a like button for cuisine
 router.patch("/:cuisineId", async (req, res, next) => {
   // if (!cuisine.userId === req.user.id) {
@@ -102,8 +104,9 @@ router.patch("/:cuisineId", async (req, res, next) => {
   // }
 
   try {
-    const cuisine = await Cuisine.findByPk(req.params.cuisineId);
     const cuisineId = parseInt(req.params.cuisineId);
+
+    const cuisine = await Cuisine.findByPk(req.params.cuisineId);
 
     await cuisine.increment("likes", { by: 1, where: { id: cuisineId } });
 
@@ -113,5 +116,7 @@ router.patch("/:cuisineId", async (req, res, next) => {
     next(e.message);
   }
 });
+
+//http GET :4000/cusines/2
 
 module.exports = router;
