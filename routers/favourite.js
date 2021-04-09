@@ -9,7 +9,8 @@ const router = new Router();
 router.get("/", authMiddleware, async (req, res, next) => {
   try {
     const userFav = await Favourite.findAll({
-      include: [{ model: User, where: { id: req.user.id } }],
+      include: [Cuisine],
+      where: { userId: req.user.id },
     });
     res.send(userFav);
   } catch (e) {
