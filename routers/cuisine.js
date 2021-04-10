@@ -96,7 +96,7 @@ router.get("/", async (req, res, next) => {
 //http GET :4000/cusines
 
 //update a like button for cuisine
-router.patch("/:cuisineId", async (req, res, next) => {
+router.patch("/likes/:id", async (req, res, next) => {
   // if (!cuisine.userId === req.user.id) {
   //   return res
   //     .status(403)
@@ -104,19 +104,19 @@ router.patch("/:cuisineId", async (req, res, next) => {
   // }
 
   try {
-    const cuisineId = parseInt(req.params.cuisineId);
+    const id = parseInt(req.params.id);
 
-    const cuisine = await Cuisine.findByPk(req.params.cuisineId);
+    const cuisine = await Cuisine.findByPk(id);
+    const likes = cuisine.likes;
 
-    await cuisine.increment("likes", { by: 1, where: { id: cuisineId } });
+    const updatedCuisine = await cuisine.update({ likes: likes + 1 });
 
-    return res.status(200).send({ cuisine });
-    console.log("response: ", cuisine);
+    return res.status(200).send(updatedCuisine);
   } catch (e) {
     next(e.message);
   }
 });
 
-//http GET :4000/cusines/2
+//http PATCH :4000/cuisines/likes/2
 
 module.exports = router;
