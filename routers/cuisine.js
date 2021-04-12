@@ -53,41 +53,8 @@ router.get("/", async (req, res, next) => {
     } else {
       const formatted_cuisines = JSON.parse(JSON.stringify(allCuisines));
 
-      let finalData = [];
-      console.log("raw data", formatted_cuisines);
-      const cuisineArray = formatted_cuisines.map((c) => {
-        const obj = new Object();
-        obj.id = c.id;
-        obj.userId = c.userId;
-        obj.title = c.title;
-        obj.instructions = c.instructions;
-        obj.imageUrl = c.imageUrl;
-        obj.cuisineType = c.cuisineType;
-        obj.servings = c.servings;
-        obj.cookingTime = c.cookingTime;
-        obj.calories = c.calories;
-        obj.likes = c.likes;
-
-        //custom made array for number of ingredient object
-        obj.ingredients = [];
-
-        c.ingredients.map((i) => {
-          const ingredientObj = new Object();
-
-          ingredientObj.name = i.name;
-
-          ingredientObj.amount = i.cuisineingredients.amount;
-
-          obj.ingredients.push(ingredientObj);
-          return;
-        });
-        finalData.push(obj);
-
-        return;
-      });
-
-      res.send(finalData);
-      console.log("Final data: ", finalData);
+      res.send(formatted_cuisines);
+      console.log("Final data: ", formatted_cuisines);
     }
   } catch (e) {
     next(e.message);
@@ -144,35 +111,9 @@ router.get("/:id", async (req, res, next) => {
     } else {
       const formatted_cuisines = JSON.parse(JSON.stringify(specificCuisine));
 
-      // console.log("raw data", formatted_cuisines);
-      const obj = new Object();
-      obj.id = specificCuisine.id;
-      obj.userId = specificCuisine.userId;
-      obj.title = specificCuisine.title;
-      obj.instructions = specificCuisine.instructions;
-      obj.imageUrl = specificCuisine.imageUrl;
-      obj.cuisineType = specificCuisine.cuisineType;
-      obj.servings = specificCuisine.servings;
-      obj.cookingTime = specificCuisine.cookingTime;
-      obj.calories = specificCuisine.calories;
-      obj.likes = specificCuisine.likes;
+      res.send(formatted_cuisines);
 
-      //custom made array for number of ingredient object
-      obj.ingredients = [];
-
-      specificCuisine.ingredients.map((i) => {
-        const ingredientObj = new Object();
-
-        ingredientObj.name = i.name;
-
-        ingredientObj.amount = i.cuisineingredients.amount;
-
-        obj.ingredients.push(ingredientObj);
-        return;
-      });
-
-      res.send(obj);
-      console.log("Final data: ", obj);
+      console.log("Final data: ", formatted_cuisines);
     }
   } catch (e) {
     next(e.message);
