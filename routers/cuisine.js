@@ -120,6 +120,88 @@ router.patch("/likes/:id", async (req, res, next) => {
 
 //http PATCH :4000/cuisines/likes/2
 
+router.get("/:id", async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+    const specificCuisine = await Cuisine.findOne({
+      include: [
+        {
+          model: Ingredient,
+
+          through: {
+            model: CuisineIngredient,
+            as: "cuisineingredients",
+            attributes: ["amount"],
+          },
+        },
+      ],
+      where: { id: id },
+    });
+
+    if (!specificCuisine) {
+      res.status(404).send("Cuisine not found");
+    } else {
+      const formatted_cuisines = JSON.parse(JSON.stringify(specificCuisine));
+
+      console.log("raw data", formatted_cuisines);
+      const obj = new Object();
+      obj.id = specificCuisine.id;
+      obj.userId = specificCuisine.userId;
+      obj.title = specificCuisine.title;
+      obj.instructions = specificCuisine.instructions;
+      obj.imageUrl = specificCuisine.imageUrl;
+      obj.cuisineType = specificCuisine.cuisineType;
+      obj.servings = specificCuisine.servings;
+      obj.cookingTime = specificCuisine.cookingTime;
+      obj.calories = specificCuisine.calories;
+      obj.likes = specificCuisine.likes;
+
+      //custom made array for number of ingredient object
+      obj.ingredients = [];
+
+      specificCuisine.ingredients.map((i) => {
+        const ingredientObj = new Object();
+
+        ingredientObj.name = i.name;
+
+        ingredientObj.amount = i.cuisineingredients.amount;
+
+        obj.ingredients.push(ingredientObj);
+        return;
+      });
+
+      res.send(obj);
+      console.log("Final data: ", obj);
+    }
+  } catch (e) {
+    next(e.message);
+  }
+});
+
+//http GET :4000/cusines
+
+//update a like button for cuisine
+router.patch("/likes/:id", async (req, res, next) => {
+  // if (!cuisine.userId === req.user.id) {
+  //   return res
+  //     .status(403)
+  //     .send({ message: "You are not authorized to like cuisine" });
+  // }
+
+  try {
+    const id = parseInt(req.params.id);
+
+    const cuisine = await Cuisine.findByPk(id);
+    const likes = cuisine.likes;
+
+    const updatedCuisine = await cuisine.update({ likes: likes + 1 });
+
+    return res.status(200).send(updatedCuisine);
+  } catch (e) {
+    next(e.message);
+  }
+});
+
 //Creates a new recipe
 
 router.post("/", authMiddleware, async (req, res, next) => {
