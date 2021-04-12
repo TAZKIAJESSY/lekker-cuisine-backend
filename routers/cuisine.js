@@ -120,6 +120,7 @@ router.patch("/likes/:id", async (req, res, next) => {
 
 //http PATCH :4000/cuisines/likes/2
 
+//cuisine details
 router.get("/:id", async (req, res, next) => {
   try {
     const id = parseInt(req.params.id);
@@ -143,7 +144,7 @@ router.get("/:id", async (req, res, next) => {
     } else {
       const formatted_cuisines = JSON.parse(JSON.stringify(specificCuisine));
 
-      console.log("raw data", formatted_cuisines);
+      // console.log("raw data", formatted_cuisines);
       const obj = new Object();
       obj.id = specificCuisine.id;
       obj.userId = specificCuisine.userId;
@@ -177,8 +178,7 @@ router.get("/:id", async (req, res, next) => {
     next(e.message);
   }
 });
-
-//http GET :4000/cusines
+//http GET :4000/cuisines/id
 
 //update a like button for cuisine
 router.patch("/likes/:id", async (req, res, next) => {
