@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const Cuisine = require("../models").cuisine;
 const Ingredient = require("../models").ingredient;
-const CuisineIngredient = require("../models").cuisineingredient;
+const CuisineIngredient = require("../models").cuisineIngredient;
+const authMiddleware = require("../auth/middleware");
 
 const router = new Router();
 
@@ -118,5 +119,48 @@ router.patch("/likes/:id", async (req, res, next) => {
 });
 
 //http PATCH :4000/cuisines/likes/2
+
+//Creates a new recipe
+
+router.post("/", authMiddleware, async (req, res, next) => {
+  try {
+    const cuisine = await Cuisine.create(req.body);
+
+    console.log("Request body: ", req.body.ingredients);
+
+    req.body.ingredients.forEach(async (ing) => {
+      const lowerCaseNameIngredient = ing.ingredientName.toLowerCase();
+
+      //Check if the ingrident exist already in the database or not
+      const ingredient = await Ingredient.findOne({
+        where: { name: lowerCaseNameIngredient },
+      });
+
+      let newIngredient;
+      //if the ingredient already exists in the database, create join row with the id from that ingredient
+      if (ingredient) {
+        const cuisineIngredients = await CuisineIngredient.create({
+          amount: ing.amount,
+          ingredientId: ingredient.id,
+          cuisineId: cuisine.id,
+        });
+        //if the ingredient was not found create a new ingredient.
+      } else {
+        newIngredient = await Ingredient.create({
+          name: ing.ingredientName,
+        });
+        const cuisineIngredients = await CuisineIngredient.create({
+          amount: ing.amount,
+          ingredientId: newIngredient.id,
+          cusineId: cuisine.id,
+        });
+      }
+    });
+
+    res.json(cuisine);
+  } catch (e) {
+    next(e);
+  }
+});
 
 module.exports = router;

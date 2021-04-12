@@ -49,7 +49,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     const { id } = req.params;
     const findFav = await Favourite.findByPk(id);
     const deleteFav = await findFav.destroy();
-    res.status(200).send({ message: "Favourite DELETED", deleteFav });
+    res.status(200).send({ message: "Favourite DELETED", findFav });
   } catch (e) {
     console.log(e.message);
     next(e);
