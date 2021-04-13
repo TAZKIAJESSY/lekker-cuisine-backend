@@ -28,6 +28,7 @@ router.get("/", authMiddleware, async (req, res, next) => {
 router.post("/", authMiddleware, async (req, res, next) => {
   try {
     const { ingredientId } = req.body;
+    console.log("show ingredient id ", ingredientId);
 
     //Check if the same ingridentId exist already in the database or not
     const ingredientIdCheck = await Busket.findOne({
@@ -54,7 +55,7 @@ router.post("/", authMiddleware, async (req, res, next) => {
 //// http POST :4000/login email=test@test.com password=test1234
 ////http POST :4000/lists ingredientId=2 Authorization:"Bearer token"
 
-//del a ingredient from list in shooping list
+//del a ingredient from list in shooping list by PK
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
