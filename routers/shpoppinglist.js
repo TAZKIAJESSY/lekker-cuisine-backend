@@ -22,5 +22,36 @@ router.get("/", authMiddleware, async (req, res, next) => {
     next(e.message);
   }
 });
+//http GET :4000/lists Authorization:"Bearer token"
+
+//new list add to shopping list
+router.post("/", authMiddleware, async (req, res, next) => {
+  try {
+    const { ingredientId } = req.body;
+
+    //Check if the same ingridentId exist already in the database or not
+    const ingredientIdCheck = await Busket.findOne({
+      where: { ingredientId: ingredientId, userId: req.user.id },
+    });
+
+    let myNewList;
+
+    //if already exists in database
+    if (ingredientIdCheck) {
+      res.status(400).send("Already exist in database");
+    } else {
+      myNewList = await Busket.create({
+        userId: req.user.id,
+        ingredientId: ingredientId,
+      });
+    }
+
+    res.json(myNewList);
+  } catch (e) {
+    next(e.message);
+  }
+});
+//// http POST :4000/login email=test@test.com password=test1234
+////http POST :4000/lists ingredientId=2 Authorization:"Bearer token"
 
 module.exports = router;
