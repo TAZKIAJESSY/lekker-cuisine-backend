@@ -24,7 +24,7 @@ router.get("/", authMiddleware, async (req, res, next) => {
 });
 //http GET :4000/lists Authorization:"Bearer token"
 
-//new list add to shopping list
+//add new a ingredient to shopping list
 router.post("/", authMiddleware, async (req, res, next) => {
   try {
     const { ingredientId } = req.body;
@@ -53,5 +53,21 @@ router.post("/", authMiddleware, async (req, res, next) => {
 });
 //// http POST :4000/login email=test@test.com password=test1234
 ////http POST :4000/lists ingredientId=2 Authorization:"Bearer token"
+
+//del a ingredient from list in shooping list
+router.delete("/:id", authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const findIngredient = await Busket.findByPk(id);
+    const deleteIngredient = await findIngredient.destroy();
+    res
+      .status(200)
+      .send({ message: "Ingredient in shopping List DELETED", findIngredient });
+  } catch (e) {
+    console.log(e.message);
+    next(e);
+  }
+});
+//http DELETE :4000/lists/4 Authorization:"Bearer token"
 
 module.exports = router;
