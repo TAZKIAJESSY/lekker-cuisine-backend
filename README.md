@@ -1,6 +1,8 @@
-# LEKKER CUISINE SERVER 🥕🥗👩‍🍳
+## LEKKER CUISINE SERVER 🥕🥗👩‍🍳
 
 Lekker Cuisine is a cooking app characterized by distinctive ingredients, techniques and dishes, and usually associated with a specific culture or geographic region. For me Cooking is an absolutely special process. Some see this as a highly artistic event, while for others it’s just a daily routine. Yet, no matter on which side you are — cooking app development is something that can help lots of people. So helping people more elaborately this app consists of shopping list of missing ingredients for a specific cuisine, a user want to try. This will encourage people to use the application more frequently (not only when they’re preparing food but also during shopping).
+
+Here you can find the [deployed version]()
 
 ### DATABASE MODEL
 
@@ -14,9 +16,46 @@ Go To [Model](https://wireframepro.mockflow.com/view/Ma1bc87249898ec6ac465741312
 
 ### TECHNOLOGIES
 
+- JavaScript
+- React
+- Redux
 - Express
-- PostgresSQL
-- Sequelize
 - REST API
+- Sequelize as ORM
+- PostgreSQL
+- Many-to-many models
+- Bootstrap
+
+### PROJECT GOAL
+
+- Building a full-stack app
+- Finish the whole project in 9 days deadline
+- Utilize and implement what we achieved during Codaisseur bootcamp
+- Showcase and document development skills using:
+  - make a wireframe
+  - design a data model
+  - write user stories
+  - use project board
+  - use git flow
+
+### USER STORY
+
+---
+
+- #### Public User
+
+  - I can see all types of cuisines and filter as well as sort them to my preferences
+  - I also can like the cuisine if i want
+
+- #### Logged In User
+  - I can able to see details of every different cuisine what i want to try
+  - What if any of the items in the ingredient list is missing at home, don't be sad; I can add them to my shopping list so that i can use these to do shopping list while i am at super market
+  - If i already purchasd the item i can remove them from my to do shopping list
+  - I can add to my bucket list as a favourite so that i can find easily when i want to try cooking the food
+  - I can remove any of them right away if i don't want see in my favourite list
+  - As a potential user, i can contribute and share my most valued cooking recipe with my friends
+  - And i am able to filter them any time if i don't want to share anymore
 
 ### CLIENT
+
+Go To [Client](https://github.com/TAZKIAJESSY/lekker-cuisine-frontend) repo
