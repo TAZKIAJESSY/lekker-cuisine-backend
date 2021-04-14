@@ -26,16 +26,22 @@ router.post("/", authMiddleware, async (req, res, next) => {
   try {
     const { cuisineId } = req.body;
 
+    if (!cuisineId) {
+      return res.status(400).send("Please provide cuisine id");
+    }
+
     const myNewFav = await Favourite.create({
       userId: req.user.id,
       cuisineId: cuisineId,
     });
 
-    if (!cuisineId) {
-      return res.status(400).send("Please provide cuisine id");
-    } else {
-      res.status(200).send(myNewFav);
-    }
+    //send data together with cuisine details by join
+    const userFavWithDetails = await Favourite.findOne({
+      include: [Cuisine],
+      where: { userId: req.user.id, cuisineId: cuisineId },
+    });
+
+    res.status(200).send(userFavWithDetails);
   } catch (e) {
     next(e.message);
   }

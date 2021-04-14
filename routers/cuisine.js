@@ -3,6 +3,7 @@ const Cuisine = require("../models").cuisine;
 const Ingredient = require("../models").ingredient;
 const CuisineIngredient = require("../models").cuisineIngredient;
 const authMiddleware = require("../auth/middleware");
+const sequelize = require("sequelize");
 
 const router = new Router();
 
@@ -122,16 +123,20 @@ router.patch("/likes/:id", async (req, res, next) => {
 
 router.post("/", authMiddleware, async (req, res, next) => {
   try {
+    console.log("Request body: ", req.body);
+
     const cuisine = await Cuisine.create(req.body);
 
-    console.log("Request body: ", req.body.ingredients);
-
     req.body.ingredients.forEach(async (ing) => {
-      const lowerCaseNameIngredient = ing.ingredientName.toLowerCase();
+      const ingredientNameHi = ing.ingredientName;
 
       //Check if the ingrident exist already in the database or not
       const ingredient = await Ingredient.findOne({
-        where: { name: lowerCaseNameIngredient },
+        where: sequelize.where(
+          sequelize.fn("lower", sequelize.col("name")),
+          sequelize.fn("lower", ingredientNameHi)
+        ),
+        // where: { name: lowerCaseNameIngredient },
       });
 
       let newIngredient;
@@ -150,7 +155,7 @@ router.post("/", authMiddleware, async (req, res, next) => {
         const cuisineIngredients = await CuisineIngredient.create({
           amount: ing.amount,
           ingredientId: newIngredient.id,
-          cusineId: cuisine.id,
+          cuisineId: cuisine.id,
         });
       }
     });
