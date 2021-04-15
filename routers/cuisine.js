@@ -3,33 +3,9 @@ const Cuisine = require("../models").cuisine;
 const Ingredient = require("../models").ingredient;
 const CuisineIngredient = require("../models").cuisineIngredient;
 const authMiddleware = require("../auth/middleware");
+const sequelize = require("sequelize");
 
 const router = new Router();
-
-// get all cusines
-// router.get("/", async (req, res, next) => {
-//   try {
-//     const allCuisines = await Cuisine.findAll({
-//       include: [
-//         {
-//           model: Ingredient,
-//           through: {
-//             model: CuisineIngredient,
-//             as: "cuisineingredients",
-//             attributes: ["amount"],
-//           },
-//         },
-//       ],
-//     });
-//     if (!allCuisines) {
-//       res.status(404).send("Cuisines not found");
-//     } else {
-//       res.send(allCuisines);
-//     }
-//   } catch (e) {
-//     next(e.message);
-//   }
-// });
 
 // // get all cusines
 router.get("/", async (req, res, next) => {
@@ -62,30 +38,6 @@ router.get("/", async (req, res, next) => {
 });
 
 //http GET :4000/cusines
-
-//update a like button for cuisine
-router.patch("/likes/:id", async (req, res, next) => {
-  // if (!cuisine.userId === req.user.id) {
-  //   return res
-  //     .status(403)
-  //     .send({ message: "You are not authorized to like cuisine" });
-  // }
-
-  try {
-    const id = parseInt(req.params.id);
-
-    const cuisine = await Cuisine.findByPk(id);
-    const likes = cuisine.likes;
-
-    const updatedCuisine = await cuisine.update({ likes: likes + 1 });
-
-    return res.status(200).send(updatedCuisine);
-  } catch (e) {
-    next(e.message);
-  }
-});
-
-//http PATCH :4000/cuisines/likes/2
 
 //cuisine details
 router.get("/:id", async (req, res, next) => {
@@ -147,16 +99,20 @@ router.patch("/likes/:id", async (req, res, next) => {
 
 router.post("/", authMiddleware, async (req, res, next) => {
   try {
+    console.log("Request body: ", req.body);
+
     const cuisine = await Cuisine.create(req.body);
 
-    console.log("Request body: ", req.body.ingredients);
-
     req.body.ingredients.forEach(async (ing) => {
-      const lowerCaseNameIngredient = ing.ingredientName.toLowerCase();
+      const ingredientNameHi = ing.ingredientName;
 
       //Check if the ingrident exist already in the database or not
       const ingredient = await Ingredient.findOne({
-        where: { name: lowerCaseNameIngredient },
+        where: sequelize.where(
+          sequelize.fn("lower", sequelize.col("name")),
+          sequelize.fn("lower", ingredientNameHi)
+        ),
+        // where: { name: lowerCaseNameIngredient },
       });
 
       let newIngredient;
@@ -175,7 +131,7 @@ router.post("/", authMiddleware, async (req, res, next) => {
         const cuisineIngredients = await CuisineIngredient.create({
           amount: ing.amount,
           ingredientId: newIngredient.id,
-          cusineId: cuisine.id,
+          cuisineId: cuisine.id,
         });
       }
     });
@@ -185,5 +141,29 @@ router.post("/", authMiddleware, async (req, res, next) => {
     next(e);
   }
 });
+
+//delete a cuisine for a user
+router.delete("/:id", authMiddleware, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const user = req.user;
+    const cuisine = await Cuisine.findByPk(id);
+
+    if (cuisine.userId === user.id) {
+      const deletedRecipe = await cuisine.destroy();
+      res.status(201).send({ message: "Cuisine deleted", cuisine });
+    } else {
+      return res
+        .status(400)
+        .send("You are not authorized to delete this cuisine");
+    }
+  } catch (e) {
+    console.log(e.message);
+    next(e);
+  }
+});
+// http POST :4000/login email=jessy@hi.com password=jessy1234
+// http GET :4000/cuisines/id(cuisineIdpk) Authorization:"Bearer token"
 
 module.exports = router;

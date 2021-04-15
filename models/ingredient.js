@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "ingredientId",
       });
 
-      ingredient.hasMany(models.shoppingList);
+      ingredient.belongsToMany(models.user, {
+        through: "shoppingLists",
+        foreignKey: "ingredientId",
+        as: "list",
+      });
     }
   }
   ingredient.init(

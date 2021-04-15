@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         as: "fav",
       });
 
-      user.hasMany(models.shoppingList);
+      user.belongsToMany(models.ingredient, {
+        through: "shoppingLists",
+        foreignKey: "userId",
+        as: "list",
+      });
     }
   }
   user.init(
