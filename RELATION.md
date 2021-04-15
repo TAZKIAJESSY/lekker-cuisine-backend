@@ -6,10 +6,10 @@
 
 **cusine**
 
-cuisine.belongsToMany(models.ingredient, {
-through: "cuisineIngredients",
-foreignKey: "cuisineId",
-});
+      cuisine.belongsToMany(models.ingredient, {
+        through: "cuisineIngredients",
+        foreignKey: "cuisineId",
+      });
 
 **cuisineIngredient**
 cuisineIngredient.belongsTo(models.cuisine);
@@ -38,7 +38,7 @@ user.hasMany(models.cuisine, { as: "owner" });
 **cuisine**
 cuisine.belongsTo(models.user);
 
-    cuisine.belongsToMany(models.user, {
+      cuisine.belongsToMany(models.user, {
         through: "favourites",
         foreignKey: "cuisineId",
         as: "fav",
