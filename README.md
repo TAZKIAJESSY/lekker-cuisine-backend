@@ -51,7 +51,7 @@ Go To [Model](https://wireframepro.mockflow.com/view/Ma1bc87249898ec6ac465741312
   - I can able to see details of every different cuisine what i want to try
   - What if any of the items in the ingredient list is missing at home, don't be sad; I can add them to my shopping list so that i can use these to do shopping list while i am at super market
   - If i already purchasd the item i can remove them from my to do shopping list
-  - I can add to my bucket list as a favourite so that i can find easily when i want to try cooking the food
+  - I can add any cuisine to my bucket list as a favourite so that i can find easily when i want to try the dish
   - I can remove any of them right away if i don't want see in my favourite list
   - As a potential user, i can contribute and share my most valued cooking recipe with my friends
   - And i am able to filter them any time if i don't want to share anymore

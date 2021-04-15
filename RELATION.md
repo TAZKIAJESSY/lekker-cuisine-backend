@@ -16,6 +16,7 @@ cuisineIngredient.belongsTo(models.cuisine);
 cuisineIngredient.belongsTo(models.ingredient);
 
 **ingredient**
+
 ingredient.belongsToMany(models.cuisine, {
 through: "cuisineIngredients",
 foreignKey: "ingredientId",

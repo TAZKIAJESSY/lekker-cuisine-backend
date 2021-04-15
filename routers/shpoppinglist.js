@@ -47,7 +47,13 @@ router.post("/", authMiddleware, async (req, res, next) => {
       });
     }
 
-    res.json(myNewList);
+    //send data together with ingredient details by join
+    const newListWithDetails = await Busket.findOne({
+      include: [Ingredient],
+      where: { userId: req.user.id, ingredientId: ingredientId },
+    });
+
+    res.json(newListWithDetails);
   } catch (e) {
     next(e.message);
   }
