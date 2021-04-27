@@ -5,6 +5,7 @@ const authRouter = require("./routers/auth");
 const cuisineRouter = require("./routers/cuisine");
 const favouriteRouter = require("./routers/favourite");
 const shoppinglistRouter = require("./routers/shpoppinglist");
+const nearByShopRouter = require("./routers/nearbyshop");
 
 const authMiddleWare = require("./auth/middleware");
 
@@ -61,6 +62,7 @@ app.use("/", authRouter);
 app.use("/cuisines", cuisineRouter);
 app.use("/favourites", favouriteRouter);
 app.use("/lists", shoppinglistRouter);
+app.use("/shop", nearByShopRouter);
 
 // Listen for connections on specified port (default is port 4000)
 
